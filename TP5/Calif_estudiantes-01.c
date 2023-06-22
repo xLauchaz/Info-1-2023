@@ -1,5 +1,5 @@
 #include <stdio.h>
-//Rodriguez Lautaro 91167 1R1, TP%.
+//Rodriguez Lautaro 91167 1R1, TP5.
 int main(void){
     //declaracion de variables a utilizar.
     int calif, cant_est,mayor = 0, menor = 100;
