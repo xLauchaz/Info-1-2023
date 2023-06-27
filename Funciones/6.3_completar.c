@@ -1,10 +1,10 @@
 #include <stdio.h>
 void imprime_mayor(int x, int y){
     if (x > y){
-        printf("El mayor es %d\n", x);
+        printf("El número %d es el mayor\n", x);
     } 
     else {
-        printf("El mayor es %d\n", y);
+        printf("El número %d es el mayor\n", y);
     }
 }
 int main(void){
