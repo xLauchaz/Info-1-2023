@@ -10,7 +10,7 @@ int main(void){
         scanf("%d", &cant_est);
         if (cant_est < 0 || cant_est > 100)
         {
-            printf("Cantidad no valida\n");
+            printf("Cantidad no valida, debe ser un numero positivo\n");
         }
     }while (cant_est < 0 || cant_est > 100);
     //ciclo para verificar las calificaciones.
@@ -31,7 +31,7 @@ int main(void){
                 promedio += calif;
             }
             else{
-                printf("Calificacion no valida\n");
+                printf("Calificacion no valida (0-100)\n");
                 i--;
             }   
         }
