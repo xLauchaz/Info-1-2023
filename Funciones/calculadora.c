@@ -10,6 +10,7 @@ int ingresar_y_validar_opcion(void);
 int main(void){
 
     int op, num1, num2;
+    float resultado;
     printf("1. Suma\n2. Resta\n3. Multiplicacion\n4. Division\n");
     printf("\n5.Potencia\n6. Raiz cuadrada\n7. Salir\n");
     scanf("%d", &op);
@@ -19,33 +20,37 @@ int main(void){
     case 1:
         printf("Ingrese los numeros a sumar: ");
         scanf("%f %f", &num1, &num2);
-        float resultado = suma(num1,num2);
+        resultado = suma(num1,num2);
         printf("El resultado de la suma es: %.2f\n", resultado);
         break;
     case 2:
         printf("Ingrese los numeros a restar: ");
         scanf("%f %f", &num1, &num2);
-        float resultado = resta(num1,num2);
+        resultado = resta(num1,num2);
+        printf("El resultado de la resta es: %.2f\n", resultado);
         break;
     case 3:
         printf("Ingrese los numeros a multiplicar: ");
         scanf("%f %f", &num1, &num2);
-        float resultado = multiplicacion(num1,num2);
+        resultado = multiplicacion(num1,num2);
+        printf("El resultado de la multiplicacion es: %.2f\n", resultado);
         break;
     case 4:
         printf("Ingrese los numeros a dividir: ");
         scanf("%f %f", &num1, &num2);
-        float resultado = division(num1,num2);
+        resultado = division(num1,num2);
+        printf("El resultado de la division es: %.2f\n", resultado);
         break;
     case 5:
         printf("Ingrese la base y el exponente: ");
         scanf("%f %f", &num1, &num2);
-        pow(num1,num2);
+        resultado = pow(num1,num2);
+        printf("El resultado de la potencia es: %.2f\n", resultado);
         break;
     case 6: 
         printf("Ingrese el numero a calcular la raiz cuadrada: ");
         scanf("%f", &num1);
-        sqrt(num1);
+        resultado = sqrt(num1);
         break;
     case 7:
         printf("Saliendo del programa...\n");
@@ -69,16 +74,13 @@ float suma(float num1, float num2){
 }
 float resta(float num1, float num2){
     float resultado = num1 - num2;
-    printf("El resultado de la resta es: %.2f\n", resultado);
     return resultado;
 }
 float multiplicacion(float num1, float num2){
     float resultado = num1 * num2;
-    printf("El resultado de la multiplicacion es: %.2f\n", resultado);
     return resultado;
 }
 float division(float num1, float num2){
     float resultado = num1 / num2;
-    printf("El resultado de la division es: %.2f\n", resultado);
     return resultado;
 }
