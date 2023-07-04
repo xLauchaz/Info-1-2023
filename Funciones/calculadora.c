@@ -5,14 +5,14 @@ float multiplicacion(float,float);
 float division(float,float);
 float potencia(float,float);
 float raiz_cuadrada(float);
-int ingresar_y_validar_opcion(int);
+int ingresar_y_validar_opcion(void);
 int main(void){
 
     int op, num1, num2;
     printf("1. Suma\n2. Resta\n3. Multiplicacion\n4. Division\n");
     printf("\n5.Potencia\n6. Raiz cuadrada\n7. Salir\n");
     scanf("%d", &op);
-    op = ingresar_y_validar_opcion(op);
+    op = ingresar_y_validar_opcion();
     switch (op)
     {
     case 1:
@@ -51,7 +51,10 @@ int main(void){
     }
     return 0;
 }
-int ingresar_y_validar_opcion(int op){
+int ingresar_y_validar_opcion(void){
+    int op;
+    printf("Ingrese una opcion: ");
+    scanf("%d", &op);
     while(op < 1 || op > 6){
         printf("Opcion invalida, ingrese nuevamente: ");
         scanf("%d", &op);
