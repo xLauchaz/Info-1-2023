@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 float suma(float,float);
 float resta(float,float);
 float multiplicacion(float,float);
@@ -18,32 +19,33 @@ int main(void){
     case 1:
         printf("Ingrese los numeros a sumar: ");
         scanf("%f %f", &num1, &num2);
-        suma(num1,num2);
+        float resultado = suma(num1,num2);
+        printf("El resultado de la suma es: %.2f\n", resultado);
         break;
     case 2:
         printf("Ingrese los numeros a restar: ");
         scanf("%f %f", &num1, &num2);
-        resta(num1,num2);
+        float resultado = resta(num1,num2);
         break;
     case 3:
         printf("Ingrese los numeros a multiplicar: ");
         scanf("%f %f", &num1, &num2);
-        multiplicacion(num1,num2);
+        float resultado = multiplicacion(num1,num2);
         break;
     case 4:
         printf("Ingrese los numeros a dividir: ");
         scanf("%f %f", &num1, &num2);
-        division(num1,num2);
+        float resultado = division(num1,num2);
         break;
     case 5:
         printf("Ingrese la base y el exponente: ");
         scanf("%f %f", &num1, &num2);
-        potencia(num1,num2);
+        pow(num1,num2);
         break;
     case 6: 
         printf("Ingrese el numero a calcular la raiz cuadrada: ");
         scanf("%f", &num1);
-        raiz_cuadrada(num1);
+        sqrt(num1);
         break;
     case 7:
         printf("Saliendo del programa...\n");
@@ -63,7 +65,6 @@ int ingresar_y_validar_opcion(void){
 }
 float suma(float num1, float num2){
     float resultado = num1 + num2;
-    printf("El resultado de la suma es: %.2f\n", resultado);
     return resultado;
 }
 float resta(float num1, float num2){
@@ -79,23 +80,5 @@ float multiplicacion(float num1, float num2){
 float division(float num1, float num2){
     float resultado = num1 / num2;
     printf("El resultado de la division es: %.2f\n", resultado);
-    return resultado;
-}
-float potencia(float num1, float num2){
-    float resultado = 1;
-    for(int i = 0; i < num2; i++){
-        resultado *= num1;
-    }
-    printf("El resultado de la potencia es: %.2f\n", resultado);
-    return resultado;
-}
-float raiz_cuadrada(float num1){
-    float resultado = 0;
-    for(int i = 0; i < num1; i++){
-        if(i * i == num1){
-            resultado = i;
-        }
-    }
-    printf("El resultado de la raiz cuadrada es: %.2f\n", resultado);
     return resultado;
 }
