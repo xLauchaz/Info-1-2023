@@ -2,8 +2,8 @@
 //Rodriguez Lautaro 91167 1R1, TP5.
 int main(void){
     //declaracion de variables a utilizar.
-    int calif, cant_est,mayor = 0, menor = 100;
-    float promedio = 0, total = 0;
+    int calif, cant_est;
+    float promedio = 0, total = 0,mayor = 0, menor = 100;
     //validacion de la cantidad de estudiantes.
     do{
         printf("Ingrese la cantidad de estudiantes: ");
@@ -36,9 +36,8 @@ int main(void){
             }   
         }
     }while (calif < 0 || calif > 100);
-    //impresion de resultados.
-    printf("El promedio de las calificaciones es: %.2f\n", promedio/cant_est);
-    printf("La calificacion mas alta es: %d\n", mayor);
-    printf("La calificacion mas baja es: %d\n", menor);
+    printf("El promedio de las calificaciones es: %f\n", promedio/cant_est);
+    printf("La calificacion mas alta es: %f\n", mayor);
+    printf("La calificacion mas baja es: %f\n", menor);
     return 0;
 }
