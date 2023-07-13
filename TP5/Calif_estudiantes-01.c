@@ -36,8 +36,8 @@ int main(void){
             }   
         }
     }while (calif < 0 || calif > 100);
-    printf("El promedio de las calificaciones es: %f\n", promedio/cant_est);
     printf("La calificacion mas alta es: %f\n", mayor);
     printf("La calificacion mas baja es: %f\n", menor);
+    printf("El promedio de las calificaciones es: %f\n", promedio/cant_est);
     return 0;
 }
