@@ -7,6 +7,7 @@ float imprimirResultados(float, float);
 int main(void){
     //Declaración de variables
     float base, altura;
+    //Ingreso de datos
     do
     {
         printf("Ingrese la longitud del rectángulo: ");
@@ -19,6 +20,7 @@ int main(void){
         }
         
     } while (base <= 0 || altura <= 0);
+    //Llamado a funcion
     imprimirResultados(calcularArea(base,altura),calcularPerimetro(base,altura));
 }
 //Funcion que calcula el area
