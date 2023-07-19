@@ -2,7 +2,7 @@
 //Prototipos
 float calcularArea(float ,float );
 float calcularPerimetro(float ,float );
-float imprimirResultados(float, float);
+void imprimirResultados(float, float);
 //Función principal
 int main(void){
     //Declaración de variables
@@ -17,11 +17,7 @@ int main(void){
         if (base < 0 || altura < 0)
         {
             printf("\x1b[31m""Uno o más valores ingresados son negativos, por favor ingrese valores positivos.\n""\x1b[0m");
-<<<<<<< HEAD
-        }    
-=======
         }
->>>>>>> ec5908aead51c0bad15985004c33cfd74f11483d
     } while (base <= 0 || altura <= 0);
     //Llamado a funcion
     imprimirResultados(calcularArea(base,altura),calcularPerimetro(base,altura));
@@ -35,7 +31,7 @@ float calcularPerimetro(float b, float h){
     return 2*(b+h);
 }
 //Funcion que imprime los resultados
-float imprimirResultados(float a, float p){
+void imprimirResultados(float a, float p){
     printf("El área del rectángulo es: %.2f\n", a);
     printf("El perímetro del rectángulo es: %.2f\n", p);   
 }
