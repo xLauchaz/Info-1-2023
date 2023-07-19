@@ -17,7 +17,11 @@ int main(void){
         if (base < 0 || altura < 0)
         {
             printf("\x1b[31m""Uno o más valores ingresados son negativos, por favor ingrese valores positivos.\n""\x1b[0m");
+<<<<<<< HEAD
         }    
+=======
+        }
+>>>>>>> ec5908aead51c0bad15985004c33cfd74f11483d
     } while (base <= 0 || altura <= 0);
     //Llamado a funcion
     imprimirResultados(calcularArea(base,altura),calcularPerimetro(base,altura));
