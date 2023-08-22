@@ -1,16 +1,17 @@
 #include <stdio.h>
+#define TAM 10
 int main(int argc, char const *argv[])
 {
-    int arreglo[]={89,22,9,4,13,3,73,10};
+    int arreglo[TAM]={89,22,9,4,13,3,73,10,25,100};
     int aux;
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < TAM; i++)
     {
         printf("%d ",arreglo[i]);
     }
     printf("\n");
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < TAM; i++)
     {
-        for (int j = i+1; j < 8; j++)
+        for (int j = i+1; j < TAM-1; j++)
         {
             if (arreglo[i]>arreglo[j])
             {
@@ -20,7 +21,7 @@ int main(int argc, char const *argv[])
             }
         }
     }
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < TAM; i++)
     {
         printf("%d ",arreglo[i]);
     }
