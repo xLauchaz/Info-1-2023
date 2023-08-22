@@ -9,9 +9,9 @@ int main(int argc, char const *argv[])
         printf("%d ",arreglo[i]);
     }
     printf("\n");
-    for (int i = 0; i < TAM; i++)
+    for (int i = 0; i < TAM-1; i++)
     {
-        for (int j = i+1; j < TAM-1; j++)
+        for (int j = i+1; j < TAM; j++)
         {
             if (arreglo[i]>arreglo[j])
             {
