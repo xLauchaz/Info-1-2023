@@ -21,10 +21,10 @@ int main(void) {
 
   int temp;
 
-  // Ordena el arreglo de mayor a menor
+  // Ordena el arreglo de mayor a menor pero yo le cambie de menor a mayor
   for (i = 0; i < TAM-1; i++){
     for (j = i; j < TAM; j++){
-      if (arreglo[j] > arreglo[i]){
+      if (arreglo[i] > arreglo[j]){
         temp = arreglo[i];
         arreglo[i] = arreglo[j];
         arreglo[j] = temp;
