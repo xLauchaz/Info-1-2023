@@ -12,8 +12,7 @@ int main(void){
         printf("Ingrese un numero a almacenar: ");
         scanf("%d",&arreglo[i]);
     }
-    mayor = arreglo[0];
-    menor = arreglo[0];
+    mayor = menor = arreglo[0];
     for (int i = 0; i < TAM; i++)
     {
         if (arreglo[i]>mayor)
