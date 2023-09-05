@@ -3,6 +3,8 @@
 void ingresar_elemento(int a[], int tam);
 void imprimir_arreglo(int a[], int tam);
 float calcular_promedio(int a[], int tam);
+//funcion que solicita ingresar un numero en el rango de 0 - 100
+int ingreso_y_validacion(void);
 int main(void){
     int arreglo[TAM];
     ingresar_elemento(arreglo, TAM);
@@ -13,9 +15,21 @@ int main(void){
 }
 void ingresar_elemento(int a[], int tam){
     for(int i = 0; i < tam; i++){
-        printf("Ingrese el elemento %d: ", i);
-        scanf("%d", &a[i]);
+        a[i]=ingreso_y_validacion();
     }
+}
+int ingreso_y_validacion(void){
+    int n;
+    do
+    {
+        printf("Ingrese un numero entre 0 - 100: ");
+        scanf("%d", &n);
+        if (n < 0 || n > 100)
+        {
+            printf("El numero no esta dentro de el rango permitido\n");
+        }
+    } while (n < 0 || n > 100);
+    return n;
 }
 void imprimir_arreglo(int a[], int tam){
     for(int i = 0; i < tam; i++){
