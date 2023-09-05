@@ -3,7 +3,7 @@
 void ingresar_elemento(int a[], int tam){
    for (int i = 0; i < tam; i++)
    {
-        printf("Ingrese el número: ");
+        printf("Ingrese el elemento[%d]: ", i);
         scanf("%d",&a[i]);
    }
    
@@ -11,6 +11,9 @@ void ingresar_elemento(int a[], int tam){
 int main(void){
     int arreglo[TAM];
     ingresar_elemento(arreglo, TAM);
-    printf("El elemento vale %d\n", arreglo[0]);
+    for (int i = 0; i < TAM; i++)
+    {
+        printf("%d\n", arreglo[i]);
+    }
     return 0;
 }
