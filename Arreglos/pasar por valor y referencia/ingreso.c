@@ -1,6 +1,6 @@
 #include <stdio.h>
 #define TAM 10
-void ingresar_elemento(int a[], int tam);
+void ingresar_elemento(int a[], int tam);//aca no se pasa el arreglo, sino la direccion del primer elemento del mismo.
 void imprimir_arreglo(int a[], int tam);
 float calcular_promedio(int a[], int tam);
 //funcion que solicita ingresar un numero en el rango de 0 - 100
