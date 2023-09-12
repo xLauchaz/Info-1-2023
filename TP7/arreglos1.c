@@ -1,5 +1,6 @@
 #include <stdio.h>
 #define TAM 100
+//declaracion de prototipos
 void ingreso_de_datos(int cod[],double pre[]);
 int validacion_cod(void);
 double validacion_pre(void);
@@ -7,16 +8,16 @@ void imprimir_datos(int cod[], double pre[]);
 void ordenamiento_datos(int cod[],double pre[]);
 void mas_caro_y_barato(int cod[],double pre[]);
 void mas_caros_y_baratos(int cod[],double pre[]);
+//funcion principal
 int main(void){
     int codigos[TAM];
     double precios[TAM];
     ingreso_de_datos(codigos,precios);
     imprimir_datos(codigos,precios);
     ordenamiento_datos(codigos,precios);
-    mas_caro_y_barato(codigos,precios);
-    mas_caros_y_baratos(codigos,precios);
     return 0;
 }
+//ingreso de datos
 void ingreso_de_datos(int cod[],double pre[]){
     for (size_t i = 0; i < TAM; i++)
     {
@@ -24,6 +25,7 @@ void ingreso_de_datos(int cod[],double pre[]){
         pre[i] = validacion_pre();
     }
 }
+//validacion de codigos
 int validacion_cod(void){
     int n;
     do
@@ -34,6 +36,7 @@ int validacion_cod(void){
     } while (n <= 0 );
     return n;
 }
+//validacion de precios
 double validacion_pre(void){
     double n;
     do
@@ -43,6 +46,7 @@ double validacion_pre(void){
     } while (n < 0);
     return n;
 }
+//impresion de datos
 void imprimir_datos(int cod[],double pre[]){
     printf("\n\nLista de precios\n");
     printf("----------------------------\n%s%13s\n","Codigos","Precios");
@@ -53,6 +57,7 @@ void imprimir_datos(int cod[],double pre[]){
     printf("----------------------------\n");
 
 }
+//ordenamiento
 void ordenamiento_datos(int cod[], double pre[]){
     double auxPrecio;
     int auxCodigo;
@@ -69,7 +74,10 @@ void ordenamiento_datos(int cod[], double pre[]){
             }
         }
     }
+    mas_caro_y_barato(cod,pre);
+    mas_caros_y_baratos(cod,pre);
 }
+//impresion mas caro y barato
 void mas_caro_y_barato(int cod[],double pre[]){
      //impresion del mas caro
     printf("\nProducto mas caro:\n");
@@ -79,6 +87,7 @@ void mas_caro_y_barato(int cod[],double pre[]){
     printf("Codigo: %d\tPrecio: %.2f\n----------------------------\n", cod[TAM-1], pre[TAM-1]);
    
 }
+//impresion mas caros y baratos
 void mas_caros_y_baratos(int cod[],double pre[]){
     printf("\n\n3 productos mas caros:\n\n");
     for(int i = 0; i < 3; i++){
