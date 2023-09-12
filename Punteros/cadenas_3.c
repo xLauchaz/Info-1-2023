@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 int main(void){
-    char* frases[] = {
+    char* frases[10] = {
         "El y su familia cantaban y bailaban...",
         "Podria haber hecho dulces.",
         "La musica habia destrozado a su familia",
