@@ -118,7 +118,7 @@ void mostrarPiezasValidasOrdenadasMenorMayor(const float *arr, int const cantida
   {
     for(int j = 0; j < cantidad_piezas-1; j++)
     {
-      if(aux[j] > aux[j+1])
+      if(aux[j] < aux[j+1])
       {
         float aux2 = aux[j];
         aux[j] = aux[j+1];
