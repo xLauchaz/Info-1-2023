@@ -1,0 +1,7 @@
+url de nasa: https://api.nasa.gov/planetary/apod?api_key=galEbCY2LUiHOaWbt9Mkwqy1JBhZc4sQvxkVDM1S
+
+
+
+url bot: https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/sendMessage?chat_id=5032349360&text=
+
+url get-updates: https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/getUpdates

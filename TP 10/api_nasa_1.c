@@ -23,7 +23,7 @@ static size_t write_callback(void *ptr, size_t size, size_t nmemb, string_buffer
 
 int main() {
     // URL de la NASA
-    const char *nasa_url = "https://api.nasa.gov/planetary/apod?api_key=galEbCY2LUiHOaWbt9Mkwqy1JBhZc4sQvxkVDM1S";
+    const char *nasa_url = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&camera=fhaz&api_key=galEbCY2LUiHOaWbt9Mkwqy1JBhZc4sQvxkVDM1S";
     string_buffer_t nasa_response;
     nasa_response.ptr = NULL;
     nasa_response.len = 0;
