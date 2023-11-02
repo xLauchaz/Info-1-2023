@@ -143,10 +143,11 @@ int main(int argc, char *argv[])
             // Enviar la respuesta de la API de la NASA a través de Telegram
             const char *telegram_api_url = "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/sendMessage"; // Reemplaza YOUR_BOT_TOKEN
             CURL *curl_telegram = curl_easy_init();
+            printf("Enviando mensaje a Telegram: %s\n", strbuf2.ptr);
             if (curl_telegram)
             {
               char message[2048] = {0};
-              snprintf(message, sizeof(message), "chat_id=%ld&text=%s", chat_id, strbuf2.ptr);
+              snprintf(message, sizeof(message), "chat_id=%ld&text=%s\n%s", chat_id,"LA EFEMERIDE DEL DIA ES:\n", strbuf2.ptr);
               curl_easy_setopt(curl_telegram, CURLOPT_POSTFIELDS, message);
               curl_easy_setopt(curl_telegram, CURLOPT_URL, telegram_api_url);
               curl_easy_setopt(curl_telegram, CURLOPT_WRITEDATA, &strbuf3);
