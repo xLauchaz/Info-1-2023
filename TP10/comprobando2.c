@@ -4,6 +4,31 @@
 #include <curl/curl.h>
 #include "cJSON.h"
 
+void str_replace(char *str, char target, char replacement) {
+    while (*str) {
+        if (*str == target) {
+            *str = replacement;
+        }
+        str++;
+    }
+}
+void str_replace2(char *str, char target, char replacement) {
+    while (*str) {
+        if (*str == target) {
+            *str = replacement;
+        }
+        str++;
+    }
+}
+void str_replace3(char *str, char target, char replacement) {
+    while (*str) {
+        if (*str == target) {
+            *str = replacement;
+            *str = '\n',' ';
+        }
+        str++;
+    }
+}
 typedef struct string_buffer_s
 {
   char *ptr;
@@ -140,6 +165,10 @@ int main(int argc, char *argv[])
 
           if (res == CURLE_OK)
           {
+             str_replace(strbuf2.ptr, '"', ' ');
+             str_replace2(strbuf2.ptr, '{', ' ');
+             str_replace2(strbuf2.ptr, '}', ' ');
+             str_replace3(strbuf2.ptr, ',', ' ');
             // Enviar la respuesta de la API de la NASA a través de Telegram
             const char *telegram_api_url = "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/sendMessage"; // Reemplaza YOUR_BOT_TOKEN
             CURL *curl_telegram = curl_easy_init();
