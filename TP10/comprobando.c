@@ -6,7 +6,7 @@
 
 typedef struct string_buffer_s
 {
-  char * ptr;
+  char *ptr;
   size_t len;
 } string_buffer_t;
 
@@ -53,37 +53,21 @@ int main(int argc, char *argv[])
   char *api_telegram_consulta = "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/getUpdates";
   char *api_nasa_apod = "https://api.nasa.gov/planetary/apod?api_key=galEbCY2LUiHOaWbt9Mkwqy1JBhZc4sQvxkVDM1S";
   string_buffer_initialize(&strbuf);
+  string_buffer_initialize(&strbuf2);
+  string_buffer_initialize(&strbuf3);
 
-  /* Inicializar la sesión de curl */
+  /* Inicializar la sesión de curl una vez */
   curl = curl_easy_init();
   if (!curl)
   {
     fprintf(stderr, "Fatal: curl_easy_init() error.\n");
     string_buffer_finish(&strbuf);
-    return EXIT_FAILURE;
-  }
-  string_buffer_initialize(&strbuf2);
-
-  /* Inicializar la sesión de curl */
-  curl = curl_easy_init();
-  if (!curl)
-  {
-    fprintf(stderr, "Fatal: curl_easy_init() error.\n");
     string_buffer_finish(&strbuf2);
-    return EXIT_FAILURE;
-  }
-  string_buffer_initialize(&strbuf3);
-
-  /* Inicializar la sesión de curl */
-  curl = curl_easy_init();
-  if (!curl)
-  {
-    fprintf(stderr, "Fatal: curl_easy_init() error.\n");
     string_buffer_finish(&strbuf3);
     return EXIT_FAILURE;
   }
-  
-  while (1)
+   int ciclo = 1;
+  while (ciclo)
   {
     printf("Consultando a la API de Telegram\n");
     /* Especificar la URL para consultar si hay mensajes nuevos */
@@ -105,6 +89,8 @@ int main(int argc, char *argv[])
       fprintf(stderr, "Request failed: curl_easy_perform(): %s\n", curl_easy_strerror(res));
       curl_easy_cleanup(curl);
       string_buffer_finish(&strbuf);
+      string_buffer_finish(&strbuf2);
+      string_buffer_finish(&strbuf3);
       return EXIT_FAILURE;
     }
 
@@ -122,16 +108,6 @@ int main(int argc, char *argv[])
     cJSON *result_item_json = NULL;
     cJSON_ArrayForEach(result_item_json, result_json)
     {
-      string_buffer_initialize(&strbuf3);
-
-    /* Inicializar la sesión de curl */
-    curl = curl_easy_init();
-    if (!curl)
-    {
-      fprintf(stderr, "Fatal: curl_easy_init() error.\n");
-      string_buffer_finish(&strbuf3);
-      return EXIT_FAILURE;
-    }
       message_json = cJSON_GetObjectItemCaseSensitive(result_item_json, "message");
       chat_json = cJSON_GetObjectItemCaseSensitive(message_json, "chat");
       chat_text_json = cJSON_GetObjectItemCaseSensitive(message_json, "text");
@@ -144,9 +120,9 @@ int main(int argc, char *argv[])
         printf("El chat id es: %ld\n", chat_id);
         const char *message_text = cJSON_GetStringValue(chat_text_json);
         printf("El mensaje es: %s\n", message_text);
-        
+
         // Buscar la palabra "dato" en el mensaje
-        if (strstr(message_text, "dato") != NULL)
+        if (strstr(message_text, "boca") != NULL)
         {
           // Solicitar datos a la API de la NASA
           curl_easy_setopt(curl, CURLOPT_WRITEDATA, &strbuf2);
@@ -156,38 +132,42 @@ int main(int argc, char *argv[])
           if (res == CURLE_OK)
           {
             // Enviar la respuesta de la API de la NASA a través de Telegram
-            char telegram_api_url[2048];
-            curl_easy_setopt(curl, CURLOPT_URL, telegram_api_url);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &strbuf3);
-            snprintf(telegram_api_url, sizeof(telegram_api_url), "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/sendMessage?chat_id=%ld&text=%s", chat_id, strbuf3.ptr);
-            res = curl_easy_perform(curl);
-            
-
-            if (res != CURLE_OK)
+            const char *telegram_api_url = "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/sendMessage";
+            CURL *curl_telegram = curl_easy_init();
+            if (curl_telegram)
+            {
+              char message[2048] = {0};
+              snprintf(message, sizeof(message), "chat_id=%ld&text=%s", chat_id, strbuf2.ptr);
+              curl_easy_setopt(curl_telegram, CURLOPT_POSTFIELDS, message);
+              curl_easy_setopt(curl_telegram, CURLOPT_URL, telegram_api_url);
+              curl_easy_setopt(curl_telegram, CURLOPT_WRITEDATA, &strbuf3);
+              res = curl_easy_perform(curl_telegram);
+            }
+            if (res != CURLE_OK) /*si coloco (res == CURLE_OK) el programa no me da el error y siguie normal*/
             {
               fprintf(stderr, "Failed to send message to Telegram: %s\n", curl_easy_strerror(res));
             }
-            
-
           }
           else
           {
             fprintf(stderr, "Failed to fetch data from NASA API: %s\n", curl_easy_strerror(res));
-            fprintf(stderr, "URL: %s\n", api_nasa_apod);
-
           }
         }
       }
     }
 
     /* Limpiar el buffer de respuesta */
-    string_buffer_finish(&strbuf);
-    string_buffer_finish(&strbuf2);
-    string_buffer_finish(&strbuf3);
+    cJSON_Delete(json);
+    string_buffer_initialize(&strbuf);
+    string_buffer_initialize(&strbuf2);
+    string_buffer_initialize(&strbuf3);
+    
   }
 
-  /* Limpia el buffer */
+  /* Limpia el buffer y libera recursos de Curl */
   curl_easy_cleanup(curl);
   string_buffer_finish(&strbuf);
+  string_buffer_finish(&strbuf2);
+  string_buffer_finish(&strbuf3);
   return EXIT_SUCCESS;
 }

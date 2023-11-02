@@ -44,7 +44,7 @@ int main(void)
     printf("Sales: %f\n", personaje.sales);
     printf("Nombre: %s\n",personaje.info_personal.nombre);
     printf("Apellido: %s\n", personaje.info_personal.apellido);
-    printf("----------Cargar los elemnetos mediante puntero----------");
+    printf("----------Cargar los elemnetos mediante puntero----------\n");
     printf("Ingrese su apodo: ");
     scanf("%s", &pPersonaje->apodo);
     printf("Ingrese su nombre: ");
