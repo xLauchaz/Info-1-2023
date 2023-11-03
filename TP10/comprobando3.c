@@ -4,8 +4,7 @@
 #include <curl/curl.h>
 #include "cJSON.h"
 
-// Definir una función para reemplazar un carácter en una cadena
-void str_replace(char *str, char target, char replacement) {
+void str_cambio(char *str, char target, char replacement) {
     while (*str) {
         if (*str == target) {
             *str = replacement;
@@ -23,12 +22,12 @@ typedef struct string_buffer_s
 static void string_buffer_initialize(string_buffer_t *sb)
 {
     sb->len = 0;
-    sb->ptr = NULL;
+    sb->ptr = NULL;  // Inicializa el puntero a NULL
 }
 
 static void string_buffer_finish(string_buffer_t *sb)
 {
-    if (sb->ptr)
+    if (sb->ptr)  // Verifica si el puntero no es nulo antes de liberarlo
     {
         free(sb->ptr);
         sb->len = 0;
@@ -44,7 +43,7 @@ static size_t string_buffer_callback(void *buf, size_t size, size_t nmemb, void 
     if (new_ptr == NULL)
     {
         fprintf(stderr, "Failed to allocate memory.\n");
-        return 0;
+        return 0; // Devuelve 0 para indicar un error
     }
     sb->ptr = new_ptr;
     memcpy(sb->ptr + sb->len, buf, size * nmemb);
@@ -68,8 +67,8 @@ int main(int argc, char *argv[])
     CURL *curl;
     CURLcode res;
     string_buffer_t strbuf, strbuf2, strbuf3;
-    char *api_telegram_consulta = "https://api.telegram.org/botYOUR_BOT_TOKEN/getUpdates"; // Reemplaza YOUR_BOT_TOKEN
-    char *api_nasa_apod = "https://api.nasa.gov/planetary/apod?api_key=YOUR_API_KEY"; // Reemplaza YOUR_API_KEY
+    char *api_telegram_consulta = "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/getUpdates";
+    char *api_nasa_apod = "https://api.nasa.gov/planetary/apod?api_key=galEbCY2LUiHOaWbt9Mkwqy1JBhZc4sQvxkVDM1S";
     string_buffer_initialize(&strbuf);
     string_buffer_initialize(&strbuf2);
     string_buffer_initialize(&strbuf3);
@@ -131,7 +130,7 @@ int main(int argc, char *argv[])
             chat_text_json = cJSON_GetObjectItemCaseSensitive(message_json, "text");
             chat_id_json = cJSON_GetObjectItemCaseSensitive(chat_json, "id");
 
-            if (cJSON_IsNumber(chat_id_json)
+            if (cJSON_IsNumber(chat_id_json))
             {
                 // Si es verdadero, hay un nuevo mensaje
                 long int chat_id = (long int)chat_id_json->valuedouble;
@@ -150,11 +149,12 @@ int main(int argc, char *argv[])
 
                     if (res == CURLE_OK)
                     {
-                        // Reemplazar comillas dobles por espacios en blanco en el mensaje de la NASA
-                        str_replace(strbuf2.ptr, '"', ' ');
-
+                        str_cambio(strbuf2.ptr, '"', ' ');
+                        str_cambio(strbuf2.ptr, '{', ' ');
+                        str_cambio(strbuf2.ptr, '}', ' ');
+                        str_cambio(strbuf2.ptr, ',', ' ');
                         // Enviar la respuesta de la API de la NASA a través de Telegram
-                        const char *telegram_api_url = "https://api.telegram.org/botYOUR_BOT_TOKEN/sendMessage"; // Reemplaza YOUR_BOT_TOKEN
+                        const char *telegram_api_url = "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/sendMessage"; // Reemplaza YOUR_BOT_TOKEN
                         CURL *curl_telegram = curl_easy_init();
                         printf("Enviando mensaje a Telegram: %s\n", strbuf2.ptr);
                         if (curl_telegram)
@@ -165,11 +165,16 @@ int main(int argc, char *argv[])
                             curl_easy_setopt(curl_telegram, CURLOPT_URL, telegram_api_url);
                             curl_easy_setopt(curl_telegram, CURLOPT_WRITEDATA, &strbuf3);
                             res = curl_easy_perform(curl_telegram);
+                            printf("%c", res);
                         }
                         if (res != CURLE_OK)
                         {
                             fprintf(stderr, "Failed to send message to Telegram: %s\n", curl_easy_strerror(res));
                         }
+                    }
+                    else
+                    {
+                        fprintf(stderr, "Failed to fetch data from NASA API: %s\n", curl_easy_strerror(res));
                     }
                 }
             }
@@ -177,9 +182,7 @@ int main(int argc, char *argv[])
 
         /* Limpiar el buffer de respuesta */
         cJSON_Delete(json);
-       
-
- string_buffer_finish(&strbuf);
+        string_buffer_finish(&strbuf);
         string_buffer_finish(&strbuf2);
         string_buffer_finish(&strbuf3);
     }

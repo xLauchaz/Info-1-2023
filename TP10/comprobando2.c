@@ -4,7 +4,7 @@
 #include <curl/curl.h>
 #include "cJSON.h"
 
-void str_replace(char *str, char target, char replacement) {
+void str_cambio(char *str, char target, char replacement) {
     while (*str) {
         if (*str == target) {
             *str = replacement;
@@ -12,23 +12,7 @@ void str_replace(char *str, char target, char replacement) {
         str++;
     }
 }
-void str_replace2(char *str, char target, char replacement) {
-    while (*str) {
-        if (*str == target) {
-            *str = replacement;
-        }
-        str++;
-    }
-}
-void str_replace3(char *str, char target, char replacement) {
-    while (*str) {
-        if (*str == target) {
-            *str = replacement;
-            *str = '\n',' ';
-        }
-        str++;
-    }
-}
+
 typedef struct string_buffer_s
 {
   char *ptr;
@@ -59,7 +43,7 @@ static size_t string_buffer_callback(void *buf, size_t size, size_t nmemb, void 
   if (new_ptr == NULL)
   {
     fprintf(stderr, "Failed to allocate memory.\n");
-    return 0; // Devuelve 0 para indicar un error
+    return 0;
   }
   sb->ptr = new_ptr;
   memcpy(sb->ptr + sb->len, buf, size * nmemb);
@@ -89,7 +73,7 @@ int main(int argc, char *argv[])
   string_buffer_initialize(&strbuf2);
   string_buffer_initialize(&strbuf3);
 
-  /* Inicializar la sesión de cURL una vez */
+  /* Inicializar la sesión de CURL una vez */
   curl = curl_easy_init();
   if (!curl)
   {
@@ -165,18 +149,18 @@ int main(int argc, char *argv[])
 
           if (res == CURLE_OK)
           {
-             str_replace(strbuf2.ptr, '"', ' ');
-             str_replace2(strbuf2.ptr, '{', ' ');
-             str_replace2(strbuf2.ptr, '}', ' ');
-             str_replace3(strbuf2.ptr, ',', ' ');
+             str_cambio(strbuf2.ptr, '"', ' ');
+             str_cambio(strbuf2.ptr, '{', ' ');
+             str_cambio(strbuf2.ptr, '}', ' ');
+             str_cambio(strbuf2.ptr, ',', ' ');
             // Enviar la respuesta de la API de la NASA a través de Telegram
-            const char *telegram_api_url = "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/sendMessage"; // Reemplaza YOUR_BOT_TOKEN
+            const char *telegram_api_url = "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/sendMessage";
             CURL *curl_telegram = curl_easy_init();
             printf("Enviando mensaje a Telegram: %s\n", strbuf2.ptr);
             if (curl_telegram)
             {
               char message[2048] = {0};
-              snprintf(message, sizeof(message), "chat_id=%ld&text=%s\n%s", chat_id,"LA EFEMERIDE DEL DIA ES:\n", strbuf2.ptr);
+              snprintf(message, sizeof(message), "chat_id=%ld&text=%s\n%s",chat_id,"LA EFEMERIDE DEL DIA ES:\n", strbuf2.ptr);
               curl_easy_setopt(curl_telegram, CURLOPT_POSTFIELDS, message);
               curl_easy_setopt(curl_telegram, CURLOPT_URL, telegram_api_url);
               curl_easy_setopt(curl_telegram, CURLOPT_WRITEDATA, &strbuf3);
