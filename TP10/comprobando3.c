@@ -4,14 +4,6 @@
 #include <curl/curl.h>
 #include "cJSON.h"
 
-void str_cambio(char *str, char target, char replacement) {
-    while (*str) {
-        if (*str == target) {
-            *str = replacement;
-        }
-        str++;
-    }
-}
 
 typedef struct string_buffer_s
 {
@@ -22,12 +14,12 @@ typedef struct string_buffer_s
 static void string_buffer_initialize(string_buffer_t *sb)
 {
   sb->len = 0;
-  sb->ptr = NULL;  // Inicializa el puntero a NULL
+  sb->ptr = NULL; 
 }
 
 static void string_buffer_finish(string_buffer_t *sb)
 {
-  if (sb->ptr)  // Verifica si el puntero no es nulo antes de liberarlo
+  if (sb->ptr)  
   {
     free(sb->ptr);
     sb->len = 0;
@@ -133,49 +125,84 @@ int main(int argc, char *argv[])
       if (cJSON_IsNumber(chat_id_json))
       {
         // Si es verdadero, hay un nuevo mensaje
-        long int chat_id = (long int)chat_id_json->valuedouble;
+        const long int chat_id = (long int)chat_id_json->valuedouble;
+        static long int chat_id_previo = 0;
         printf("El chat id es: %ld\n", chat_id);
         const char *message_text = cJSON_GetStringValue(chat_text_json);
         printf("El mensaje es: %s\n", message_text);
-
-        // Buscar la palabra "dato" en el mensaje
-        if (strstr(message_text, "perro") != NULL)
-        {
-          // Solicitar datos a la API de la NASA
-          string_buffer_finish(&strbuf2); // Limpia el búfer antes de la solicitud
-          curl_easy_setopt(curl, CURLOPT_WRITEDATA, &strbuf2);
-          curl_easy_setopt(curl, CURLOPT_URL, api_nasa_apod);
-          res = curl_easy_perform(curl);
-
-          if (res == CURLE_OK)
+          if(chat_id == chat_id_previo)
           {
-             str_cambio(strbuf2.ptr, '"', ' ');
-             str_cambio(strbuf2.ptr, '{', ' ');
-             str_cambio(strbuf2.ptr, '}', ' ');
-             str_cambio(strbuf2.ptr, ',', ' ');
-            // Enviar la respuesta de la API de la NASA a través de Telegram
-            const char *telegram_api_url = "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/sendMessage";
-            CURL *curl_telegram = curl_easy_init();
-            printf("Enviando mensaje a Telegram: %s\n", strbuf2.ptr);
-            if (curl_telegram)
+            // Buscar la palabra "dato" en el mensaje
+            if (strstr(message_text, "taylor") != NULL)
             {
-              char message[2048] = {0};
-              snprintf(message, sizeof(message), "chat_id=%ld&text=%s\n%s",chat_id,"LA EFEMERIDE DEL DIA ES:\n", strbuf2.ptr);
-              curl_easy_setopt(curl_telegram, CURLOPT_POSTFIELDS, message);
-              curl_easy_setopt(curl_telegram, CURLOPT_URL, telegram_api_url);
-              curl_easy_setopt(curl_telegram, CURLOPT_WRITEDATA, &strbuf3);
-              res = curl_easy_perform(curl_telegram);
-            }
-            if (res != CURLE_OK)
-            {
-              fprintf(stderr, "Failed to send message to Telegram: %s\n", curl_easy_strerror(res));
+              // Solicitar datos a la API de la NASA
+              string_buffer_finish(&strbuf2); // Limpia el búfer antes de la solicitud
+              curl_easy_setopt(curl, CURLOPT_WRITEDATA, &strbuf2);
+              curl_easy_setopt(curl, CURLOPT_URL, api_nasa_apod);
+              res = curl_easy_perform(curl);
+
+              if (res == CURLE_OK)
+              {
+                
+                    // Buscar el campo explanation en la respuesta
+                    cJSON *json2 = cJSON_Parse(strbuf2.ptr);
+                    cJSON *explanation_json = cJSON_GetObjectItemCaseSensitive(json2, "explanation");
+                    const char *explanation = cJSON_GetStringValue(explanation_json);
+                    // Buscar el campo url en la respuesta
+                    cJSON *url_json = cJSON_GetObjectItemCaseSensitive(json2, "url");
+                    const char *url = cJSON_GetStringValue(url_json);
+
+                    // Enviar la respuesta de la API de la NASA a través de Telegram
+                    const char *telegram_api_url = "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/sendMessage?";
+                    // CURL *curl_telegram = curl_easy_init();
+                    if (curl)
+                    {
+                    char message[2048] = {0};
+                    snprintf(message, sizeof(message), "%schat_id=%ld&text=%s%s %s", telegram_api_url, chat_id, "LA EFEMERIDE DEL DIA ES:", explanation, url);
+                    char message_clean[2048] = {0};
+                    int j = 0;
+                    for (int i = 0; message[i]!='\0' ; i++)
+                    {
+                    if (message[i] == ' ')
+                    {
+                        message_clean[j++] = '%';
+                        message_clean[j++] = '2';
+                        message_clean[j++] = '0';
+                    }
+                    else if (message[i] < 0 || message[i] > 127)
+                    {
+                        message_clean[j++] = '_';
+                    }
+                    else if (message[i] == ',' || message[i] == '\\')
+                    {
+                        message_clean[j++] = '%';
+                        message_clean[j++] = '2';
+                        message_clean[j++] = 'C';
+                        i++;
+                    }
+                    else
+                    {
+                        message_clean[j++] = message[i];
+                    }
+                    }
+                    printf("El mensaje a enviar es: %s\n", message_clean);
+                    curl_easy_setopt(curl, CURLOPT_URL, message_clean);
+                    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &strbuf3);
+                    res = curl_easy_perform(curl);
+                    
+                }
+                if (res != CURLE_OK)
+                {
+                  fprintf(stderr, "Failed to send message to Telegram: %s\n", curl_easy_strerror(res));
+                }
+              }
+              else
+              {
+                fprintf(stderr, "Failed to fetch data from NASA API: %s\n", curl_easy_strerror(res));
+              }
             }
           }
-          else
-          {
-            fprintf(stderr, "Failed to fetch data from NASA API: %s\n", curl_easy_strerror(res));
-          }
-        }
+          chat_id_previo = chat_id;
       }
     }
 
