@@ -3,33 +3,14 @@
 #include <string.h>
 #include <curl/curl.h>
 #include "cJSON.h"
-typedef struct chat_id_almacenado{
-  long int chat_id[1000];
-}chat_id_almacenado_t;
+
 
 typedef struct string_buffer_s
 {
   char *ptr;
   size_t len;
 } string_buffer_t;
-//funcion que comparara el chat_id actual con el anterior y lo almacena en un arreglo
-long int compara(long int chat_id, long int chat_id_previo){
-  for (int i = 0; i < 1000; i++)
-  {
-    chat_id_almacenado_t chat_id_almacenado;
-    chat_id_almacenado.chat_id[i] = chat_id;
-    if (chat_id_almacenado.chat_id[i] != chat_id_previo)
-    {
-      return chat_id_previo;
-    }
-    else
-    {
-      return chat_id;
-    }
 
-  }
-  
-}
 static void string_buffer_initialize(string_buffer_t *sb)
 {
   sb->len = 0;
@@ -78,8 +59,8 @@ int main(int argc, char *argv[])
   CURL *curl;
   CURLcode res;
   string_buffer_t strbuf, strbuf2, strbuf3;
-  char *api_telegram_consulta = "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/getUpdates"; 
-  char *api_nasa_apod = "https://api.nasa.gov/planetary/apod?api_key=galEbCY2LUiHOaWbt9Mkwqy1JBhZc4sQvxkVDM1S"; 
+  char *api_telegram_consulta = "https://api.telegram.org/bot6301204320:AAEUlIFzaqdx0Qa-aBdXj-VSH5kKzHV6sdA/getUpdates"; 
+  char *api_nasa_apod = "https://dog.ceo/api/breeds/image/random"; 
   string_buffer_initialize(&strbuf);
   string_buffer_initialize(&strbuf2);
   string_buffer_initialize(&strbuf3);
@@ -152,7 +133,7 @@ int main(int argc, char *argv[])
           if(chat_id != chat_id_previo)
           {
             // Buscar la palabra "dato" en el mensaje
-            if (strstr(message_text, "Dato") != NULL)
+            if (strstr(message_text, "Queso") != NULL)
             {
               // Solicitar datos a la API de la NASA
               string_buffer_finish(&strbuf2); // Limpia el búfer antes de la solicitud
@@ -165,19 +146,19 @@ int main(int argc, char *argv[])
                 
                     // Buscar el campo explanation en la respuesta
                     cJSON *json2 = cJSON_Parse(strbuf2.ptr);
-                    cJSON *explanation_json = cJSON_GetObjectItemCaseSensitive(json2, "explanation");
-                    const char *explanation = cJSON_GetStringValue(explanation_json);
+                    cJSON *mensaje_json = cJSON_GetObjectItemCaseSensitive(json2, "message");
+                    const char *mensaje = cJSON_GetStringValue(mensaje_json);
                     // Buscar el campo url en la respuesta
                     cJSON *url_json = cJSON_GetObjectItemCaseSensitive(json2, "url");
                     const char *url = cJSON_GetStringValue(url_json);
 
                     // Enviar la respuesta de la API de la NASA a través de Telegram
-                    const char *telegram_api_url = "https://api.telegram.org/bot6866775472:AAEdyyIPrr43qHaiNzolzWlU_SJgSgjGwA8/sendMessage?";
+                    const char *telegram_api_url = "https://api.telegram.org/bot6301204320:AAEUlIFzaqdx0Qa-aBdXj-VSH5kKzHV6sdA/sendMessage?";
                     // CURL *curl_telegram = curl_easy_init();
                     if (curl)
                     {
                     char message[2048] = {0};
-                    snprintf(message, sizeof(message), "%schat_id=%ld&text=%s%s %s", telegram_api_url, chat_id, "LA EFEMERIDE DEL DIA ES:", explanation, url);
+                    snprintf(message, sizeof(message), "%schat_id=%ld&text=%s%s %s", telegram_api_url, chat_id, "Un perrito para vos:", mensaje, url);
                     char message_clean[2048] = {0};
                     int j = 0;
                     for (int i = 0; message[i]!='\0' ; i++)
@@ -230,6 +211,7 @@ int main(int argc, char *argv[])
     string_buffer_finish(&strbuf);
     string_buffer_finish(&strbuf2);
     string_buffer_finish(&strbuf3);
+    
   }
 
   /* Limpia el buffer y libera recursos de cURL */
