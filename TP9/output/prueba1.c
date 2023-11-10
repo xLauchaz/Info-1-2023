@@ -100,20 +100,16 @@ void imprimir_biblioteca(libro_t *bib, int cant)
   }
   
 }
-void ordenar_por_precio_menor_mayor(libro_t * bib,int cant)
-{
+void ordenar_por_precio_menor_mayor(libro_t *bib, int cant) {
+    int i, j;
   libro_t temp;
-  for (int i = 0; i < cant; i++)
-  {
-    for(int j = 0; j < cant-1-i; j++)
-    {
-      if(bib[j].precio < bib[j+1].precio)
-      {
-        temp = bib[j];
-        bib[j] = bib[j+1];
-        bib[j+1] = temp;
-      }
+    for (i = 0; i < cant - 1; i++) {
+        for (j = 0; j < cant - i - 1; j++) {
+            if (bib[j].precio > bib[j + 1].precio) {
+                temp = bib[j];
+                bib[j] = bib[j+1];
+                bib[j+1] = temp;
+            }
+        }
     }
-  }
-  
 }
