@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
         printf("El chat id es: %ld\n", chat_id);
         const char *message_text = cJSON_GetStringValue(chat_text_json);
         printf("El mensaje es: %s\n", message_text);
-          if(chat_id != chat_id_previo)
+          if(chat_id == chat_id_previo)
           {
             // Buscar la palabra "dato" en el mensaje
             if (strstr(message_text, "Dato") != NULL)
@@ -211,10 +211,11 @@ int main(int argc, char *argv[])
     string_buffer_finish(&strbuf);
     string_buffer_finish(&strbuf2);
     string_buffer_finish(&strbuf3);
-    
+    ciclo = 0;
   }
 
   /* Limpia el buffer y libera recursos de cURL */
   curl_easy_cleanup(curl);
+  printf("Termino con exito\n");
   return EXIT_SUCCESS;
 }

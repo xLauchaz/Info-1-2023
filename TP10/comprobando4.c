@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
           if(chat_id != chat_id_previo)
           {
             // Buscar la palabra "dato" en el mensaje
-            if (strstr(message_text, "Dato") != NULL)
+            if (strstr(message_text, "Nasa") != NULL)
             {
               // Solicitar datos a la API de la NASA
               string_buffer_finish(&strbuf2); // Limpia el búfer antes de la solicitud

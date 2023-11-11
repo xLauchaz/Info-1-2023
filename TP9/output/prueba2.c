@@ -61,38 +61,51 @@ void cargar_biblioteca(libro_t *bib, int cant) {
     for (int i = 0; i < cant; i++) {
         printf("Ingrese el nombre del libro: ");
         scanf(" %[^\n]s", bib[i].nombre);
-
-        printf("Ingrese la cantidad de capítulos: ");
-        scanf("%d", &bib[i].cant_capitulos);
-
+        do
+        {
+          printf("Ingrese la cantidad de capítulos: ");
+          scanf("%d", &bib[i].cant_capitulos);
+        } while (bib[i].cant_capitulos < 1);
+        
         bib[i].paginas_por_capitulo = calloc(bib[i].cant_capitulos, sizeof(int));
-
+        bib[i].cant_paginas = 0;
         for (int j = 0; j < bib[i].cant_capitulos; j++) {
-            printf("Ingrese la cantidad de páginas del capítulo %d:", j + 1);
-            scanf("%d", &bib[i].paginas_por_capitulo[j]);
+            do
+						{
+							printf("Ingrese la cantidad de páginas del capítulo %d:", j + 1);
+            	scanf("%d", &bib[i].paginas_por_capitulo[j]);
+						} while (bib[i].paginas_por_capitulo < 1);
+						
+            bib[i].cant_paginas += bib[i].paginas_por_capitulo[j];
         }
 
-        printf("Ingrese el precio del libro: ");
+       do
+			 {
+				 printf("Ingrese el precio del libro: ");
         scanf("%f", &bib[i].precio);
-
+			 } while (bib[i].precio < 1);
+			 
         printf("Ingrese el nombre del autor: ");
         scanf(" %[^\n]s", bib[i].datos_autor.nombre);
 
-        printf("Ingrese el año de nacimiento del autor: ");
-        scanf("%d", &bib[i].datos_autor.anio_nacimiento);
+        do
+				{
+					printf("Ingrese el año de nacimiento del autor: ");
+        	scanf("%d", &bib[i].datos_autor.anio_nacimiento);
+				} while (bib[i].datos_autor.anio_nacimiento < 1);
+				
     }
 }
 
 void imprimir_biblioteca(libro_t *bib, int cant) {
     for (int i = 0; i < cant; i++) {
         printf("Nombre del libro: %s\n", bib[i].nombre);
-        bib[i].cant_paginas = 0;
-        for (int j = 0; j < bib[i].cant_capitulos; j++) {
-            printf("Cantidad de páginas del capítulo %d: %d\n", j + 1, bib[i].paginas_por_capitulo[j]);
-            bib[i].cant_paginas += bib[i].paginas_por_capitulo[j];
-        }
         printf("Cantidad de páginas: %d\n", bib[i].cant_paginas);
         printf("Cantidad de capítulos: %d\n", bib[i].cant_capitulos);
+        for (int j = 0; j < bib[i].cant_capitulos; j++) {
+            printf("Cantidad de páginas del capítulo %d: %d\n", j + 1, bib[i].paginas_por_capitulo[j]);
+        }
+        
         printf("Precio del libro: %.2f\n", bib[i].precio);
         printf("Nombre del autor: %s\n", bib[i].datos_autor.nombre);
         printf("Año de nacimiento del autor: %d\n", bib[i].datos_autor.anio_nacimiento);
