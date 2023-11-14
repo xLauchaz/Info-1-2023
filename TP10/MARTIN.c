@@ -59,8 +59,8 @@ int main(int argc, char *argv[])
   CURL *curl;
   CURLcode res;
   string_buffer_t strbuf, strbuf2, strbuf3;
-  char *api_telegram_consulta = "https://api.telegram.org/bot6301204320:AAEUlIFzaqdx0Qa-aBdXj-VSH5kKzHV6sdA/getUpdates"; 
-  char *api_nasa_apod = "https://dog.ceo/api/breeds/image/random"; 
+  char *api_telegram_consulta = "https://api.telegram.org/bot6712997080:AAG9SOyMPQGrrQh09liX21LhE85PRXQqW3A/getUpdates"; 
+  char *api_nasa_apod = "https://randomfox.ca/floof/"; 
   string_buffer_initialize(&strbuf);
   string_buffer_initialize(&strbuf2);
   string_buffer_initialize(&strbuf3);
@@ -130,10 +130,10 @@ int main(int argc, char *argv[])
         printf("El chat id es: %ld\n", chat_id);
         const char *message_text = cJSON_GetStringValue(chat_text_json);
         printf("El mensaje es: %s\n", message_text);
-          if(chat_id != chat_id_previo)
+          if(chat_id == chat_id_previo)
           {
             // Buscar la palabra "dato" en el mensaje
-            if (strstr(message_text, "Perrito") != NULL)
+            if (strstr(message_text, "Dato") != NULL)
             {
               // Solicitar datos a la API de la NASA
               string_buffer_finish(&strbuf2); // Limpia el búfer antes de la solicitud
@@ -146,19 +146,19 @@ int main(int argc, char *argv[])
                 
                     // Buscar el campo explanation en la respuesta
                     cJSON *json2 = cJSON_Parse(strbuf2.ptr);
-                    cJSON *mensaje_json = cJSON_GetObjectItemCaseSensitive(json2, "message");
-                    const char *mensaje = cJSON_GetStringValue(mensaje_json);
+                    cJSON *imagen_json = cJSON_GetObjectItemCaseSensitive(json2, "image");
+                    const char *imagen = cJSON_GetStringValue(imagen_json);
                     // Buscar el campo url en la respuesta
                     cJSON *url_json = cJSON_GetObjectItemCaseSensitive(json2, "url");
                     const char *url = cJSON_GetStringValue(url_json);
 
                     // Enviar la respuesta de la API de la NASA a través de Telegram
-                    const char *telegram_api_url = "https://api.telegram.org/bot6301204320:AAEUlIFzaqdx0Qa-aBdXj-VSH5kKzHV6sdA/sendMessage?";
+                    const char *telegram_api_url = "https://api.telegram.org/bot6712997080:AAG9SOyMPQGrrQh09liX21LhE85PRXQqW3A/sendMessage?";
                     // CURL *curl_telegram = curl_easy_init();
                     if (curl)
                     {
                     char message[2048] = {0};
-                    snprintf(message, sizeof(message), "%schat_id=%ld&text=%s%s %s", telegram_api_url, chat_id, "Un perrito para vos:", mensaje, url);
+                    snprintf(message, sizeof(message), "%schat_id=%ld&text=%s", telegram_api_url, chat_id,imagen);
                     char message_clean[2048] = {0};
                     int j = 0;
                     for (int i = 0; message[i]!='\0' ; i++)
@@ -211,10 +211,11 @@ int main(int argc, char *argv[])
     string_buffer_finish(&strbuf);
     string_buffer_finish(&strbuf2);
     string_buffer_finish(&strbuf3);
-    
+    ciclo = 0;
   }
 
   /* Limpia el buffer y libera recursos de cURL */
   curl_easy_cleanup(curl);
+  printf("Termino con exito\n");
   return EXIT_SUCCESS;
 }
