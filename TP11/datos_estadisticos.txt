@@ -1,0 +1,10 @@
+Producto más caro:
+ID: 9990385651946
+Nombre: Yerba Mate Aromatizada Lata Dana 150 Gr
+Precio: 198.90
+
+Producto más barato:
+ID: 7790580344108
+Nombre: Chicle Frutilla Melon Sandia Caja Neo Gum 1 Un
+Precio: 0.12
+

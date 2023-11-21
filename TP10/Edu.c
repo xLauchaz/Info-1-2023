@@ -132,7 +132,7 @@ int main(int argc, char *argv[])
         printf("El mensaje es: %s\n", message_text);
           if(chat_id != chat_id_previo)
           {
-            // Buscar la palabra "dato" en el mensaje
+            // Buscar la palabra "perrito" en el mensaje
             if (strstr(message_text, "Perrito") != NULL)
             {
               // Solicitar datos a la API de la NASA
