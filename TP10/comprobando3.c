@@ -3,7 +3,6 @@
 #include <string.h>
 #include <curl/curl.h>
 #include "cJSON.h"
-#include <unistd.h>
 typedef struct string_buffer_s
 {
   char *ptr;
@@ -211,7 +210,6 @@ int main(int argc, char *argv[])
     string_buffer_finish(&strbuf2);
     string_buffer_finish(&strbuf3);
     ciclo = 0;
-    sleep(5);
   }
 
   /* Limpia el buffer y libera recursos de cURL */
