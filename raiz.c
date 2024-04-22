@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-int main(int argc, char const *argv[])
+int main(void)
 {
     float num1,num2,res;
     scanf("%f",&num1);
