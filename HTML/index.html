@@ -1,9 +1,67 @@
 <!DOCTYPE html>
+<!--Pagina de estudio de arquitectura-->
 <html>
   <head>
-    <title>xLauchaz24</title>
+    <title>EntramadosArq</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    
+    <div class="container">
+      <header>
+        <h1>Estudio de Arquitectura</h1>
+        <nav>
+          <ul>
+            <li><a href="https://marmarenco.github.io/Portfolio/">Porfolio</a></li>
+            <li><a href="proyectos.html">Proyectos</a></li>
+            <li><a href="#">Servicios</a></li>
+            <li><a href="#">Contacto</a></li>
+          </ul>
+        </nav>
+      </header>
+      <main>
+        <section>
+          <h2>Bienvenidos</h2>
+          <p>En nuestro estudio de arquitectura, nos dedicamos a crear espacios funcionales y estéticamente atractivos.</p>
+        </section>
+        <section>
+          <h2>Proyectos Destacados</h2>
+          <div class="project">
+            <img src="project1.jpg" alt="Proyecto 1">
+            <h3>Proyecto 1</h3>
+            <p>Descripción del proyecto 1.</p>
+          </div>
+          <div class="project">
+            <img src="project2.jpg" alt="Proyecto 2">
+            <h3>Proyecto 2</h3>
+            <p>Descripción del proyecto 2.</p>
+          </div>
+        </section>
+        <section>
+          <h2>Nuestros Servicios</h2>
+          <ul>
+            <li>Diseño arquitectónico</li>
+            <li>Planificación urbana</li>
+            <li>Remodelación de espacios</li>
+            <li>Consultoría en construcción</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Contacto</h2>
+          <p>Puede comunicarse con nosotros a través del siguiente formulario:</p>
+          <form>
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Mensaje:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Enviar</button>
+          </form>
+        </section>
+      </main>
+      <footer>
+        <p>&copy; 2023 Estudio de Arquitectura. Todos los derechos reservados.</p>
+      </footer>
+    </div>
   </body>
 </html>
