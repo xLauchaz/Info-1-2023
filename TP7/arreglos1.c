@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define TAM 100
+#define TAM 5
 //declaracion de prototipos
 void ingreso_de_datos(int cod[],double pre[]);
 int validacion_cod(void);
